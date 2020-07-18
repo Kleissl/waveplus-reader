@@ -50,9 +50,12 @@ The following tables shows a compact overview of dependencies for this project.
 
 ## Setup Raspberry Pi
 
-The first step is to setup the Raspberry Pi with Raspbian. An installation guide for 
+The first step is to setup the Raspberry Pi with Raspberry Pi OS (formely known as Raspbian). An installation guide for 
 Raspbian can be found on the [Raspberry Pi website](https://www.raspberrypi.org/downloads/raspbian/).
 In short: download the Raspbian image and write it to a micro SD card.
+
+The Raspberry Pi Imager is the easiest way to prepare the micro SD card and under "Raspebrry Pi OS (Other) >" section
+the minimalistic version "Raspberry Pi OS Lite (32-bit)" can be found which is more than sufficient.
 
 To continue, you need access to the Raspberry Pi using either a monitor and keyboard, or 
 by connecting through WiFi or ethernet from another computer. The latter option does not 
@@ -66,6 +69,16 @@ $ ssh pi@raspberrypi.local
 ```
 
 The default password for the “pi” user is “raspberry”.
+
+## Update Raspberry Pi OS
+
+Optional, but highly recommended:
+
+```
+pi@raspberrypi:~$ sudo apt-get update
+pi@raspberrypi:~$ sudo apt-get upgrade
+```
+
 
 ## Turn on the BLE interface
 
