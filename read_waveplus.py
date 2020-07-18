@@ -93,29 +93,37 @@ try:
 
     while True:
         sensors = None
-        waveplus.connect()
         
-        # read values
-        sensors = waveplus.read()
+        try:
+            waveplus.connect()
+        
+            # read values
+            sensors = waveplus.read()
 
-        # extract
-        humidity     = str(sensors.getValue(sensors.SENSOR_IDX_HUMIDITY))             + " " + str(sensors.getUnit(sensors.SENSOR_IDX_HUMIDITY))
-        radon_st_avg = str(sensors.getValue(sensors.SENSOR_IDX_RADON_SHORT_TERM_AVG)) + " " + str(sensors.getUnit(sensors.SENSOR_IDX_RADON_SHORT_TERM_AVG))
-        radon_lt_avg = str(sensors.getValue(sensors.SENSOR_IDX_RADON_LONG_TERM_AVG))  + " " + str(sensors.getUnit(sensors.SENSOR_IDX_RADON_LONG_TERM_AVG))
-        temperature  = str(sensors.getValue(sensors.SENSOR_IDX_TEMPERATURE))          + " " + str(sensors.getUnit(sensors.SENSOR_IDX_TEMPERATURE))
-        pressure     = str(sensors.getValue(sensors.SENSOR_IDX_REL_ATM_PRESSURE))     + " " + str(sensors.getUnit(sensors.SENSOR_IDX_REL_ATM_PRESSURE))
-        CO2_lvl      = str(sensors.getValue(sensors.SENSOR_IDX_CO2_LVL))              + " " + str(sensors.getUnit(sensors.SENSOR_IDX_CO2_LVL))
-        VOC_lvl      = str(sensors.getValue(sensors.SENSOR_IDX_VOC_LVL))              + " " + str(sensors.getUnit(sensors.SENSOR_IDX_VOC_LVL))
+            # extract
+            humidity     = str(sensors.getValue(sensors.SENSOR_IDX_HUMIDITY))             + " " + str(sensors.getUnit(sensors.SENSOR_IDX_HUMIDITY))
+            radon_st_avg = str(sensors.getValue(sensors.SENSOR_IDX_RADON_SHORT_TERM_AVG)) + " " + str(sensors.getUnit(sensors.SENSOR_IDX_RADON_SHORT_TERM_AVG))
+            radon_lt_avg = str(sensors.getValue(sensors.SENSOR_IDX_RADON_LONG_TERM_AVG))  + " " + str(sensors.getUnit(sensors.SENSOR_IDX_RADON_LONG_TERM_AVG))
+            temperature  = str(sensors.getValue(sensors.SENSOR_IDX_TEMPERATURE))          + " " + str(sensors.getUnit(sensors.SENSOR_IDX_TEMPERATURE))
+            pressure     = str(sensors.getValue(sensors.SENSOR_IDX_REL_ATM_PRESSURE))     + " " + str(sensors.getUnit(sensors.SENSOR_IDX_REL_ATM_PRESSURE))
+            CO2_lvl      = str(sensors.getValue(sensors.SENSOR_IDX_CO2_LVL))              + " " + str(sensors.getUnit(sensors.SENSOR_IDX_CO2_LVL))
+            VOC_lvl      = str(sensors.getValue(sensors.SENSOR_IDX_VOC_LVL))              + " " + str(sensors.getUnit(sensors.SENSOR_IDX_VOC_LVL))
         
-        # Print data
-        data = [humidity, radon_st_avg, radon_lt_avg, temperature, pressure, CO2_lvl, VOC_lvl]
+            # Print data
+            data = [humidity, radon_st_avg, radon_lt_avg, temperature, pressure, CO2_lvl, VOC_lvl]
         
-        if (Mode=='terminal'):
-            print (tableprint.row(data, width=12))
-        elif (Mode=='pipe'):
-            print (data)
+            if (Mode=='terminal'):
+                print (tableprint.row(data, width=12))
+            elif (Mode=='pipe'):
+                print (data)
             
-        waveplus.disconnect()
+            waveplus.disconnect()
+        except BTLEException as ex:
+            print (tableprint.row("Failed to connect to the AirThings Wave+ sensor, will try again on the next cycle...", width=102))
+            continue;
+        else:
+            break
+            
         time.sleep(SamplePeriod)
             
 finally:
