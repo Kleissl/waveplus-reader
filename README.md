@@ -1,8 +1,7 @@
 # Airthings Wave Plus Sensor Reader
 
 This is a project to provide users an interface (```read_waveplus.py```) to read current sensor values from the
-[Airthings Wave Plus](https://airthings.com/wave-plus/) devices using a Raspberry Pi 3 
-Model B over Bluetooth Low Energy (BLE).
+[Airthings Wave Plus](https://airthings.com/wave-plus/) devices using a Raspberry Pi Zero W over Bluetooth Low Energy (BLE).
 
 Airthings Wave Plus is a smart IAQ monitor with Radon detection, including sensors for
 temperature, air pressure, humidity, TVOCs and CO2.
@@ -30,7 +29,7 @@ The following tables shows a compact overview of dependencies for this project.
 
 | OS | Device/model/version | Comments |
 |-------------|-------------|-------------|
-| Raspbian | Raspberry Pi 3 Model B | Used in this project.
+| Raspbian | Raspberry Pi Zero W    | Used in this project.
 | Linux    | x86 Debian             | Should work according to [bluepy](https://github.com/IanHarvey/bluepy)
 
 **List of linux/raspberry dependencies**
@@ -73,7 +72,7 @@ The default password for the “pi” user is “raspberry”.
 In the terminal window on your Raspberry Pi:
 
 ```
-pi@raspberrypi:~$ bluetoothctl
+pi@raspberrypi:~$ sudo bluetoothctl
 [bluetooth]# power on
 [bluetooth]# show
 ```
@@ -120,13 +119,13 @@ pi@raspberrypi:~$ sudo pip install paho-mqtt
 Downloading using git:
 
 ```
-pi@raspberrypi:~$ sudo git clone https://github.com/Airthings/waveplus-reader.git
+pi@raspberrypi:~$ sudo git clone https://github.com/RoChess/waveplus-reader.git
 ```
 
 Downloading using wget:
 
 ```
-pi@raspberrypi:~$ wget https://raw.githubusercontent.com/Airthings/waveplus-reader/master/read_waveplus.py
+pi@raspberrypi:~$ wget https://raw.githubusercontent.com/RoChess/waveplus-reader/master/read_waveplus.py
 ```
 
 # Usage
