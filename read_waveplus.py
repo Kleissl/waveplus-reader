@@ -120,7 +120,7 @@ try:
             waveplus.disconnect()
         except BTLEException as ex:
             print (tableprint.row("Failed to connect to the AirThings Wave+ sensor, will try again on the next cycle...", width=102))
-            continue;
+            continue
             
         time.sleep(SamplePeriod)
             
