@@ -79,7 +79,7 @@ try:
     waveplus = WavePlus(SerialNumber)
 
     if (Mode=='terminal'):
-        print ("\nPress ctrl+C to exit program\n")
+        print ("\nPress CTRL+C to exit program\n")
 
     header = ['TimeStamp', 'Humidity', 'Radon ST avg', 'Radon LT avg', 'Temperature', 'Pressure', 'CO2 level', 'VOC level']
 
@@ -121,7 +121,13 @@ try:
             waveplus.disconnect()
         except BTLEException as ex:
             timestamp = time.strftime('%H:%M:%S')
-            print (u'\u2502' + "     " + timestamp + " " + u'\u2502' + " Failed to connect to the AirThings Wave+ sensor, will try again on the next cycle...                   " + u'\u2502')
+            errormsg = " ERROR: Failed to connect to the AirThings Wave Plus sensor, will try again on the next cycle..."
+            if (Mode=='terminal'):
+                print (tableprint.bottom(8, width=12))
+                print (u'\u2502' + "     " + timestamp + " " + u'\u2502' + errormsg + "        " + u'\u2502')
+                print (tableprint.header(header, width=12))
+            elif (Mode=='pipe'):
+                print (timestamp + errormsg)
             continue
 
         time.sleep(SamplePeriod)
