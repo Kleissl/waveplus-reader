@@ -29,6 +29,7 @@
 import sys
 import time
 import tableprint
+from bluepy import btle
 from Sensors import Sensors
 from WavePlus import WavePlus
 
@@ -119,7 +120,7 @@ try:
                 print (data)
 
             waveplus.disconnect()
-        except BTLEException as ex:
+        except btle.BTLEException as ex:
             timestamp = time.strftime('%H:%M:%S')
             errormsg = " ERROR: Failed to connect to the AirThings Wave Plus sensor, will try again on the next cycle..."
             if (Mode=='terminal'):
