@@ -40,7 +40,7 @@ def print_usage():
     print ("    where SN is the 10-digit serial number found under the magnetic backplate of your Wave Plus.")
     print ("    where SAMPLE-PERIOD is the time in seconds between reading the current values.")
     print ("    where [pipe > yourfile.txt] is optional and specifies that you want to pipe your results to yourfile.txt.")
-    
+
 if len(sys.argv) < 3:
     print ("ERROR: Missing input argument SN or SAMPLE-PERIOD.")
     print_usage()
@@ -63,7 +63,7 @@ if len(sys.argv) > 3:
     else:
         Broker = None
 else:
-    Mode = 'terminal' # (default) print to terminal 
+    Mode = 'terminal' # (default) print to terminal
 
 if Mode!='pipe' and Mode!='terminal':
     print ("ERROR: Invalid piping method.")
@@ -77,14 +77,14 @@ SamplePeriod = int(sys.argv[2])
 try:
     #---- Initialize ----#
     waveplus = WavePlus(SerialNumber)
-    
+
     if (Mode=='terminal'):
         print ("\nPress ctrl+C to exit program\n")
-    
-    header = ['Humidity', 'Radon ST avg', 'Radon LT avg', 'Temperature', 'Pressure', 'CO2 level', 'VOC level']
-    
+
+    header = ['TimeStamp', 'Humidity', 'Radon ST avg', 'Radon LT avg', 'Temperature', 'Pressure', 'CO2 level', 'VOC level']
+
     print ("Device serial number: %s" %(SerialNumber))
-    
+
     if (Mode=='terminal'):
         print (tableprint.header(header, width=12))
     elif (Mode=='pipe'):
@@ -93,14 +93,15 @@ try:
 
     while True:
         sensors = None
-        
+
         try:
             waveplus.connect()
-        
+
             # read values
             sensors = waveplus.read()
 
             # extract
+            timestamp    = time.strftime('%H:%M:%S')
             humidity     = str(sensors.getValue(sensors.SENSOR_IDX_HUMIDITY))             + " " + str(sensors.getUnit(sensors.SENSOR_IDX_HUMIDITY))
             radon_st_avg = str(sensors.getValue(sensors.SENSOR_IDX_RADON_SHORT_TERM_AVG)) + " " + str(sensors.getUnit(sensors.SENSOR_IDX_RADON_SHORT_TERM_AVG))
             radon_lt_avg = str(sensors.getValue(sensors.SENSOR_IDX_RADON_LONG_TERM_AVG))  + " " + str(sensors.getUnit(sensors.SENSOR_IDX_RADON_LONG_TERM_AVG))
@@ -108,21 +109,22 @@ try:
             pressure     = str(sensors.getValue(sensors.SENSOR_IDX_REL_ATM_PRESSURE))     + " " + str(sensors.getUnit(sensors.SENSOR_IDX_REL_ATM_PRESSURE))
             CO2_lvl      = str(sensors.getValue(sensors.SENSOR_IDX_CO2_LVL))              + " " + str(sensors.getUnit(sensors.SENSOR_IDX_CO2_LVL))
             VOC_lvl      = str(sensors.getValue(sensors.SENSOR_IDX_VOC_LVL))              + " " + str(sensors.getUnit(sensors.SENSOR_IDX_VOC_LVL))
-        
+
             # Print data
-            data = [humidity, radon_st_avg, radon_lt_avg, temperature, pressure, CO2_lvl, VOC_lvl]
-        
+            data = [timestamp, humidity, radon_st_avg, radon_lt_avg, temperature, pressure, CO2_lvl, VOC_lvl]
+
             if (Mode=='terminal'):
                 print (tableprint.row(data, width=12))
             elif (Mode=='pipe'):
                 print (data)
-            
+
             waveplus.disconnect()
         except BTLEException as ex:
-            print (tableprint.row("Failed to connect to the AirThings Wave+ sensor, will try again on the next cycle...", width=102))
+            timestamp = time.strftime('%H:%M:%S')
+            print (u'\u2502' + "     " + timestamp + " " + u'\u2502' + " Failed to connect to the AirThings Wave+ sensor, will try again on the next cycle...                   " + u'\u2502')
             continue
-            
+
         time.sleep(SamplePeriod)
-            
+
 finally:
     waveplus.disconnect()
