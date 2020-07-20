@@ -120,6 +120,8 @@ try:
                 print (data)
 
             waveplus.disconnect()
+            time.sleep(SamplePeriod)
+
         except btle.BTLEException as ex:
             timestamp = time.strftime('%H:%M:%S')
             errormsg = " ERROR: Failed to connect to the AirThings Wave Plus sensor, will try again on the next cycle..."
@@ -129,9 +131,8 @@ try:
                 print (tableprint.header(header, width=12))
             elif (Mode=='pipe'):
                 print (timestamp + errormsg)
+            time.sleep(SamplePeriod)
             continue
-
-        time.sleep(SamplePeriod)
 
 finally:
     waveplus.disconnect()
