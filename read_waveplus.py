@@ -52,7 +52,7 @@ if sys.argv[1].isdigit() is not True or len(sys.argv[1]) != 10:
     print_usage()
     sys.exit(1)
 
-if sys.argv[2].isdigit() is not True or int(sys.argv[2])<0:
+if sys.argv[2].isdigit() is not True or int(sys.argv[2]) < 0:
     print ("ERROR: Invalid SAMPLE-PERIOD. Must be a numerical value larger than zero.")
     print_usage()
     sys.exit(1)
@@ -102,7 +102,7 @@ try:
             sensors = waveplus.read()
 
             # extract
-            timestamp    = time.strftime('%H:%M:%S')
+            timestamp    = time.strftime('%m/%d..%H:%M')
             humidity     = str(sensors.getValue(sensors.SENSOR_IDX_HUMIDITY))             + " " + str(sensors.getUnit(sensors.SENSOR_IDX_HUMIDITY))
             radon_st_avg = str(sensors.getValue(sensors.SENSOR_IDX_RADON_SHORT_TERM_AVG)) + " " + str(sensors.getUnit(sensors.SENSOR_IDX_RADON_SHORT_TERM_AVG))
             radon_lt_avg = str(sensors.getValue(sensors.SENSOR_IDX_RADON_LONG_TERM_AVG))  + " " + str(sensors.getUnit(sensors.SENSOR_IDX_RADON_LONG_TERM_AVG))
@@ -123,11 +123,11 @@ try:
             time.sleep(SamplePeriod)
 
         except btle.BTLEException as ex:
-            timestamp = time.strftime('%H:%M:%S')
+            timestamp = time.strftime('%m/%d..%H:%M')
             errormsg = " ERROR: Failed to connect to the AirThings Wave Plus sensor, will try again on the next cycle..."
             if (Mode=='terminal'):
                 print (tableprint.bottom(8, width=12))
-                print (u'\u2502' + "     " + timestamp + " " + u'\u2502' + errormsg + "        " + u'\u2502')
+                print (u'\u2502' + " " + timestamp + " " + u'\u2502' + errormsg + "        " + u'\u2502')
                 print (tableprint.header(header, width=12))
             elif (Mode=='pipe'):
                 print (timestamp + errormsg)
