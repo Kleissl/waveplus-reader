@@ -82,7 +82,7 @@ try:
     if (Mode=='terminal'):
         print ("\nPress CTRL+C to exit program\n")
 
-    header = ['TimeStamp', 'Humidity', 'Radon ST avg', 'Radon LT avg', 'Temperature', 'Pressure', 'CO2 level', 'VOC level']
+    header = ['TimeStamp', 'Humidity', 'Radon ST avg', 'Radon LT avg', 'Temperature', 'Pressure', 'CO2 level', 'VOC level', 'Battery']
 
     print ("Device serial number: %s" %(SerialNumber))
 
@@ -110,9 +110,10 @@ try:
             pressure     = str(sensors.getValue(sensors.SENSOR_IDX_REL_ATM_PRESSURE))     + " " + str(sensors.getUnit(sensors.SENSOR_IDX_REL_ATM_PRESSURE))
             CO2_lvl      = str(sensors.getValue(sensors.SENSOR_IDX_CO2_LVL))              + " " + str(sensors.getUnit(sensors.SENSOR_IDX_CO2_LVL))
             VOC_lvl      = str(sensors.getValue(sensors.SENSOR_IDX_VOC_LVL))              + " " + str(sensors.getUnit(sensors.SENSOR_IDX_VOC_LVL))
+            battery      = str(sensors.getValue(sensors.SENSOR_IDX_BATTERY))              + " " + str(sensors.getUnit(sensors.SENSOR_IDX_BATTERY))
 
             # Print data
-            data = [timestamp, humidity, radon_st_avg, radon_lt_avg, temperature, pressure, CO2_lvl, VOC_lvl]
+            data = [timestamp, humidity, radon_st_avg, radon_lt_avg, temperature, pressure, CO2_lvl, VOC_lvl, battery]
 
             if (Mode=='terminal'):
                 print (tableprint.row(data, width=12))
@@ -126,9 +127,9 @@ try:
             timestamp = time.strftime('%m/%d..%H:%M')
             errormsg = " ERROR: Failed to connect to the AirThings Wave Plus sensor, will try again on the next cycle..."
             if (Mode=='terminal'):
-                print (tableprint.bottom(8, width=12))
-                print (u'\u2502' + " " + timestamp + " " + u'\u2502' + errormsg + "        " + u'\u2502')
-                print (tableprint.header(header, width=12))
+                #print (tableprint.bottom(9, width=12))
+                print (u'\u2502' + " " + timestamp + " " + u'\u2502' + errormsg + "                      " + u'\u2502')
+                #print (tableprint.header(header, width=12))
             elif (Mode=='pipe'):
                 print (timestamp + errormsg)
             time.sleep(SamplePeriod)
