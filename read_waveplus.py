@@ -128,7 +128,7 @@ try:
             errormsg = " ERROR: Failed to connect to the AirThings Wave Plus sensor, will try again on the next cycle..."
             if (Mode=='terminal'):
                 #print (tableprint.bottom(9, width=12))
-                print (u'\u2502' + " " + timestamp + " " + u'\u2502' + errormsg + "                      " + u'\u2502')
+                print (u'\u2502' + " " + timestamp + " " + u'\u2502' + errormsg + "                       " + u'\u2502')
                 #print (tableprint.header(header, width=12))
             elif (Mode=='pipe'):
                 print (timestamp + errormsg)
